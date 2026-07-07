@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "a test project",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js"
   },
