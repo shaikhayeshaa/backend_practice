@@ -1,15 +1,22 @@
 import 'dotenv/config';
-import express from 'express'
-import cors from 'cors';
-import mongoose from 'mongoose';
-import { DB_NAME } from './constants.js';
 import { connectDB } from './db/index.js';
-const app = express()
-app.use(cors());
+import { app } from './app.js';
 
 const port = process.env.PORT || 3000
 
-connectDB();
+connectDB()
+.then(() => {
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`)
+    })
+    app.on('error', (error) => {
+    console.error("Error connecting to database",error)
+      throw error
+    })
+})
+.catch( (error) => {
+    console.error("Database connection error", error)
+  })
 
 // iife function
 // (async () => {
