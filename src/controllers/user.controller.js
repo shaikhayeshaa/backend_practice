@@ -105,7 +105,7 @@ const loginUser = asyncHandler(async (req, res) => {
     // getting data from user through api body
     const {username, email , password} = req.body;
 
-    if(!username || !email){
+    if(!(username || email)){
         throw new ApiError(400, "Email or username is required");
     }
 
@@ -123,11 +123,48 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const {refreshToken, accessToken} = await generateRefreshAndAccessToken(user._id)
 
-    return res.status(200).json(
+    const loggedInUser = User.findById(user._id).select("-password -refreshToken")
+
+    // options for cookies
+    const options = {
+        httpOnly: true,
+        secure:true,
+    }
+
+
+    return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json (
         new ApiResponse(200, "User logged in Successfully" , {refreshToken, accessToken})
     )
 
 });
 
+const logout = asyncHandler(async (req, res) => {
+    // we do not have user id to delete acceess token 
+    // so we design a middle ware for this
 
-export { registerUser , loginUser };
+    await User.findByIdAndUpdate(req.user._id, {refreshToken: undefined}, { returnDocument: "after" });
+
+
+ const options = {
+        httpOnly: true,
+        secure:true,
+    }
+
+    return res.status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(
+        new ApiResponse(200, "User logged out Successfully")
+    )
+
+
+
+
+
+});
+
+export { registerUser , loginUser , logout };
