@@ -399,4 +399,4 @@ const updateUserCover = asyncHandler (async (req,res) => {
    }
 })
 
-export { registerUser , loginUser , logout , refreshAccessToken , changeUserPassword , getCurrentUser , updateUserAvatar , updateUserCover};
+export { registerUser , loginUser , logout , refreshAccessToken , changeUserPassword , getCurrentUser , updateUserInfo , updateUserAvatar , updateUserCover};
