@@ -1,9 +1,11 @@
 import multer from "multer";
 import os from "os";
 
+// Error in vercel
 // const uploadDirectory = path.resolve("public/temp");
 // fs.mkdirSync(uploadDirectory, { recursive: true });
 
+// uses operating system temp folder
 const uploadDirectory = os.tmpdir();
 
 const storage = multer.diskStorage({
