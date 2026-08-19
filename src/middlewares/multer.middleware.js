@@ -1,10 +1,10 @@
 import multer from "multer";
-import fs from "fs";
-import path from "path";
+import os from "os";
 
-const uploadDirectory = path.resolve("public/temp");
+// const uploadDirectory = path.resolve("public/temp");
+// fs.mkdirSync(uploadDirectory, { recursive: true });
 
-fs.mkdirSync(uploadDirectory, { recursive: true });
+const uploadDirectory = os.tmpdir();
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
 
   filename(req, file, cb) {
     const uniqueSuffix =
-      Date.now() + "-" + Math.round(Math.random() * 1e9);c
+      Date.now() + "-" + Math.round(Math.random() * 1e9);
 
     cb(null, `${file.fieldname}-${uniqueSuffix}`);
   }
