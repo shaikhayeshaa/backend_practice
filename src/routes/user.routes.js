@@ -70,7 +70,7 @@ router.route("/channel/:username").get(
     verifyJwt,
     getUserChannelProfile,
 )
-router.route("watchHistory/").get(
+router.route("/watchHistory").get(
     verifyJwt,
     getUserWatchHistory
 )
