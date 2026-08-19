@@ -2,9 +2,11 @@ import 'dotenv/config';
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-
 import { connectDB } from "./db/index.js";
+
 import userRoutes from "./routes/user.routes.js";
+import videoRouter from "./routes/video.routes.js"
+
 
 const app = express();
 
@@ -24,6 +26,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/videos", videoRouter)
+
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
